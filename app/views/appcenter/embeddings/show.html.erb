@@ -1,0 +1,109 @@
+<%= render "shared/container", title: "Embedding #{@embedding.version}" do %>
+  <ul class="space-y-1 text-gray-500 list-none list-inside">
+    <li>
+      Version: <%= @embedding.version %>
+    </li>
+    <li>
+      Cost: $<%= @embedding.cost || "-" %>
+    </li>
+    <li>
+      FAISS URL: <%= @embedding.faiss_url %>
+    </li>
+    <li>
+      PKL URL: <%= @embedding.pkl_url %>
+    </li>
+    <li>
+      Status: <%= @embedding.status %>
+    </li>
+    <li>
+      Notes: <%= @embedding.notes %>
+    </li>
+    <li>
+
+      <% if @embedding.content.present? %>
+        Content: Exist
+
+      <% else %>
+        Content: You don't imported any content, please run content imports using this <%= link_to "Link", appcenter_embedding_imports_path(@embedding), class: "bg-red-400" %>
+      <% end %>
+    </li>
+  </ul>
+
+  <div class="flex items-center justify-end space-x-4 mb-5">
+    <div>
+      <% if @embedding.content.present? %>
+        <%= button_to train_appcenter_embedding_path(@embedding), method: :post, class: "text-white flex items-center bg-[#23B098] focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" do %>
+          <div class="flex items-center justify-between">
+            Train this Embedding
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <div>
+      <%= form_with url: activation_appcenter_embedding_path(@embedding) do |form| %>
+
+        <% if @embedding.active %>
+          <% value = false %>
+          <% text = "Deactivate" %>
+        <% else %>
+          <% value = true %>
+          <% text = "Activate" %>
+        <% end %>
+
+        <%= form.hidden_field :active, value: value %>
+        <%= form.submit text, role: "button", class: "text-black bg-gray-300 font-medium rounded-lg text-sm px-5 py-2.5" %>
+      <% end %>
+    </div>
+    <div>
+      <%= button_to "Delete",
+                  appcenter_embedding_path(@embedding),
+                  method: :delete,
+                  class: "text-white bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5" %>
+    </div>
+  </div>
+
+  <div class="relative overflow-x-auto shadow-md rounded">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" data-controller="checkbox-select-all">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            ID
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Date
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Title
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Content
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Link
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @embedding.hashed_contents.each do |content| %>
+          <tr class="bg-white border-b">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <%= content[:id] %>
+            </th>
+            <td class="px-6 py-4">
+              <%= content[:created_at] %>
+            </td>
+            <td class="px-6 py-4">
+              <%= content[:title] %>
+            </td>
+            <td class="px-6 py-4">
+              <%= strip_tags(content[:content]).truncate(200) %>
+            </td>
+            <td class="px-6 py-4">
+              <p class="text-sm truncate"><%= content[:link] %></p>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

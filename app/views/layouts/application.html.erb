@@ -11,6 +11,20 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="bg-white rounded-md border">
+      <div class="grid grid-cols-12 gap-0 h-screen">
+        <div class="col-span-2 bg-white border-r">
+          <div class="p-8">
+            <%= render "shared/menu" %>
+          </div>
+        </div>
+        <div class="col-span-10 bg-[#FAFAFA] overflow-y-auto">
+          <div class="p-8">
+            <%= render "shared/alert" %>
+            <%= yield %>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

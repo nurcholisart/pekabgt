@@ -1,0 +1,41 @@
+<%= render "shared/container", title: "Accounts" do %>
+  <%= form_with model: Current.tenant, url: appcenter_accounts_path, method: :post do |form| %>
+    <div class="mb-6">
+      <%= form.label :code, "App Code", class: "block mb-2 text-sm font-medium text-gray-900" %>
+      <%= form.text_field :code,
+                          class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+                          disabled: true,
+                          readonly: true %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :secret_key, "Secret Key", class: "block mb-2 text-sm font-medium text-gray-900" %>
+      <%= form.text_field :secret_key,
+                          class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+                          disabled: true,
+                          readonly: true %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :openai_api_key, "OpenAI API Key", class: "block mb-2 text-sm font-medium text-gray-900" %>
+      <%= form.text_field :openai_api_key,
+                          class: "bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+                          required: true %>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :chatbot_webhook_url, "Chatbot Webhook URL", class: "block mb-2 text-sm font-medium text-gray-900" %>
+      <%= form.text_field :chatbot_webhook_url,
+                          class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+                          disabled: true,
+                          readonly: true,
+                          value: chatbot_webhook_url(Current.tenant) %>
+
+      <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500">
+        Please copy URL above to Qiscus Omnichannel chatbot URL 
+      </p>
+    </div>
+
+    <%= form.submit "Save", class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
+  <% end %>
+<% end %>

@@ -1,0 +1,27 @@
+<% flash.each do |key, value| %>
+  <% element_id = SecureRandom.alphanumeric %>
+
+  <% if notice %>
+    <div id="alert-<%= element_id %>" class="flex p-4 mb-4 text-green-800 rounded-lg bg-green-50 border shadow-sm" role="alert">
+      <div class="ml-3 text-sm font-medium">
+        <%= value.html_safe %>
+      </div>
+
+      <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex h-8 w-8" data-dismiss-target="#alert-<%= element_id %>" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <%= inline_svg_tag("close.svg") %>
+      </button>
+    </div>
+  <% else %>
+    <div id="alert-<%= element_id %>" class="flex p-4 mb-4 text-red-800 rounded-lg bg-red-50 border shadow-sm" role="alert">
+      <div class="ml-3 text-sm font-medium">
+        <%= value.html_safe %>
+      </div>
+
+      <button type="button" class="ml-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex h-8 w-8" data-dismiss-target="#alert-<%= element_id %>" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <%= inline_svg_tag("close.svg") %>
+      </button>
+    </div>
+  <% end %>
+<% end %>

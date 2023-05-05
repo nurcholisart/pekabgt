@@ -1,0 +1,34 @@
+{
+  "name": "PekaBGT",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/home/qiscus/app",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "dev.containers.copyGitConfig": true
+      },
+      "extensions": [
+        "rebornix.Ruby",
+        "castwide.solargraph",
+        "kaiwood.endwise",
+        "aki77.rails-db-schema",
+        "aki77.rails-routes",
+        "aliariff.vscode-erb-beautify",
+        "redhat.vscode-yaml",
+        "pavlitsky.yard",
+        "bung87.rails",
+        "rayhanw.erb-helpers",
+        "EditorConfig.EditorConfig",
+        "bradlc.vscode-tailwindcss",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  "forwardPorts": [
+    3000,
+    5432
+  ],
+  "postCreateCommand": "sh ./.devcontainer/postCreateCommand.sh",
+  "shutdownAction": "stopCompose"
+}

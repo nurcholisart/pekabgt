@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
@@ -16,6 +18,13 @@ Rails.application.configure do
 
   # Enable server timing
   config.server_timing = true
+
+  config.session_store :cookie_store,
+                       key: "_pekabgt_store_session",
+                       same_site: :lax, # ubah :lax ke :none jika ingin coba di appcenter
+                       secure: false, # ubah ke false ke true jika ingin coba di appcenter
+                       tld_length: 3,
+                       expired: 1.day.from_now
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
@@ -67,4 +76,11 @@ Rails.application.configure do
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
+
+  config.hosts.clear
+
+  if ENV["LOGRAGE_ENABLED"].present?
+    logger           = Pekabgt::Logger.new($stdout)
+    config.logger    = logger
+  end
 end

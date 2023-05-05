@@ -1,0 +1,68 @@
+<% if message.sender_type == "chatbot" %>
+  <div id="message_<%= message.id %>" class="space-y-2">
+    <div class="flex items-center flex-row-reverse">
+      <div class="flex-1 bg-white text-black border p-5 rounded-lg relative">
+        <button type="button" class="flex absolute top-[-16px] right-3 text-white bg-black font-light rounded-full text-xs px-3 py-1.5 mr-2 mb-2" disabled>
+          <%= inline_svg_tag("robot.svg", width: "15", height: "15", class: "mr-1") %>
+          Suggestion
+        </button>
+
+        <div class="break-all">
+          <%= text_to_true_link(remove_action_message(message.content)) %>
+        </div>
+
+        <div class="absolute right-0 top-1/2 transform translate-x-1/2 rotate-45 w-2 h-2 bg-white border-t border-r"></div>
+      </div>
+    </div>
+
+    <% unless message.sent_to_qiscus? %>
+      <div class="flex flex-row-reverse overflow-x-auto items-center">
+        <div class="flex-none">
+          <%= button_to appcenter_room_qiscus_message_path(message.qiscus_room_id, message.id),
+                      method: :patch, 
+                      class: "text-black bg-white border font-light rounded-full text-xs px-3 py-1.5 mr-2 mb-2",
+                      disabled: message.sent_to_qiscus? do %>
+
+            <div class="flex items-center justify-between flex-nowrap">
+              <%= inline_svg_tag("send.svg", class: "mr-2", width: "15px", height: "15px") %>
+
+              Send
+            </div>
+          <% end %>
+        </div>
+
+        <div class="flex-none">
+          <%= button_to appcenter_room_message_path(message.qiscus_room_id, message.id),
+                        method: :patch,
+                        class: "items-center flex text-black bg-white border font-light rounded-full text-xs px-3 py-1.5 mr-2 mb-2" do %>
+            <%= inline_svg_tag("refresh.svg", class: "mr-2", width: "15px", height: "15px") %>
+
+            <p>Resuggest</p>
+          <% end %>
+        </div>
+
+        <div class="flex-none">
+          <%= button_to appcenter_room_message_path(message.qiscus_room_id, message.id),
+                        method: :patch,
+                        class: "items-center flex text-black bg-white border font-light rounded-full text-xs px-3 py-1.5 mr-2 mb-2" do %>
+            <%= inline_svg_tag("edit.svg", class: "mr-2", width: "15px", height: "15px") %>
+
+            <p>Edit</p>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div id="message_<%= message.uid %>">
+    <div class="flex items-center">
+      <div class="flex-1 bg-[#E8E8E8] text-black p-5 rounded-lg relative">
+        <div class="flex items-center">
+          <%= text_to_true_link(message.content) %>
+        </div>
+
+        <div class="absolute left-0 top-1/2 transform -translate-x-1/2 rotate-45 w-2 h-2 bg-[#E8E8E8]"></div>
+      </div>
+    </div>
+  </div>
+<% end %>

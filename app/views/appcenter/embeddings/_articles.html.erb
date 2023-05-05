@@ -1,0 +1,83 @@
+<% if @articles.blank? %>
+  <%=  inline_svg_tag("vault.svg", height: 300) %>
+  <div class="flex justify-center m-5">Please Fetch Articles...</div>
+<% else %>
+  <%= form_with url: "#" do |form| %>
+    <div class="relative overflow-x-auto shadow-md rounded">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" data-controller="checkbox-select-all">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="p-4">
+              <div class="flex items-center">
+                <input type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" data-checkbox-select-all-target="checkboxAll">
+                <label for="checkbox-all" class="sr-only">checkbox</label>
+              </div>
+            </th>
+            <th scope="col" class="px-6 py-3">
+              ID
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Date
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Title
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Content
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Link
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @articles.each do |article| %>
+            <tr class="bg-white border-b">
+              <td class="w-4 p-4">
+                <div class="flex items-center">
+                  <%= form.check_box "articles[][id]",
+                                 class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2",
+                                 value: article[:id],
+                                 data: { checkbox_select_all_target: "checkbox" } %>
+
+                  <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                </div>
+              </td>
+
+              <%= form.hidden_field "articles[][platform]", value: "wordpress" %>
+              <%= form.hidden_field "articles[][created_at]", value: article[:created_at] %>
+              <%= form.hidden_field "articles[][title]", value: article[:title] %>
+              <%= form.hidden_field "articles[][content]", value: article[:content] %>
+              <%= form.hidden_field "articles[][link]", value: article[:link] %>
+
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <%= article[:id] %>
+              </th>
+              <td class="px-6 py-4">
+                <%= article[:created_at] %>
+              </td>
+              <td class="px-6 py-4">
+                <%= article[:title] %>
+              </td>
+              <td class="px-6 py-4">
+                <%= strip_tags(article[:content]).truncate(200) %>
+              </td>
+              <td class="px-6 py-4">
+                <p class="text-sm truncate"><%= article[:link] %></p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <% if @articles.present? %>
+      <div class="flex justify-end py-3 gap-4">
+        <%= form.button type: "submit", class: "text-white flex items-center bg-[#23B098] focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" do %>
+          <%= inline_svg_tag("cpu.svg", class: "mr-2") %>
+          Embed Selected Articles
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,27 @@
+{
+  "files.associations": {
+    "*.erb": "erb"
+  },
+  "[ruby]": {
+    "editor.defaultFormatter": "castwide.solargraph"
+  },
+  "[html.erb]": {
+    "editor.defaultFormatter": "aliariff.vscode-erb-beautify",
+    "editor.formatOnSave": true
+  },
+  "emmet.includeLanguages": {
+    "erb": "html",
+    "css.erb": "css"
+  },
+  "emmet.showAbbreviationSuggestions": true,
+  "emmet.showSuggestionsAsSnippets": true,
+  "solargraph.formatting": true,
+  "solargraph.definitions": true,
+  "solargraph.useBundler": false,
+  "vscode-erb-beautify.tabStops": 2,
+  "vscode-erb-beautify.keepBlankLines": 1,
+  "tailwindCSS.experimental.classRegex": [
+    "\\bclass:\\s*'([^']*)'",
+    "\\bclass:\\s*\"([^\"]*)\""
+  ]
+}

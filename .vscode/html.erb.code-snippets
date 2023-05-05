@@ -1,0 +1,180 @@
+{
+  "Rails form with": {
+    "prefix": "fw",
+    "body": [
+      "<%= form_with model: ${1:model}, url: ${2:path} do |form| %>",
+      "  ${3:input}",
+      "<% end %>"
+    ],
+    "description": "Rails form with",
+    "scope": "erb"
+  },
+  "pc": {
+    "prefix": "pc",
+    "body": "<%# $0 %>",
+    "description": "commented ERB tags",
+    "scope": "erb"
+  },
+  "each": {
+    "prefix": "each",
+    "body": "\n<% ${1:@things}.each do |${2:thing}| %>\n\t$0\n<% end %>\n",
+    "description": "ERB each block",
+    "scope": "erb"
+  },
+  "else": {
+    "prefix": "else",
+    "body": "<% else %>",
+    "description": "ERB else tag",
+    "scope": "erb"
+  },
+  "elsif": {
+    "prefix": "elsif",
+    "body": "<% elsif ${1:true} %>",
+    "description": "ERB elsif tag",
+    "scope": "erb"
+  },
+  "end": {
+    "prefix": "end",
+    "body": "<% end %>\n",
+    "description": "ERB end tag",
+    "scope": "erb"
+  },
+  "er": {
+    "prefix": "er",
+    "body": "<% $0 %>",
+    "description": "ERB no display tag",
+    "scope": "erb"
+  },
+  "ff": {
+    "prefix": "ff",
+    "body": "<%= form_for(${1:@things}) do |${2:f}| %>\n\t\t$3\n<% end %>\n  ",
+    "description": "ERB form_for tag",
+    "scope": "erb"
+  },
+  "ife": {
+    "prefix": "ife",
+    "body": "\n<% if $1 %>\n\t$2\n<% else %>\n\t$0\n<% end %>\n",
+    "description": "ERB if / else / end",
+    "scope": "erb"
+  },
+  "if": {
+    "prefix": "if",
+    "body": "\n<% if $1 %>\n\t$0\n<% end %>\n",
+    "description": "ERB if / end",
+    "scope": "erb"
+  },
+  "lblt": {
+    "prefix": "lblt",
+    "body": "<%= label_tag :${1:thing}, \"${2:Your label text}\" %>",
+    "description": "ERB label tag",
+    "scope": "erb"
+  },
+  "lt": {
+    "prefix": "lt",
+    "body": "<%= link_to $1, $2 %>",
+    "description": "ERB link tag",
+    "scope": "erb"
+  },
+  "pe": {
+    "prefix": "pe",
+    "body": "<%= $0 %>",
+    "description": "ERB display tag",
+    "scope": "erb"
+  },
+  "st": {
+    "prefix": "st",
+    "body": "<%= submit_tag \"${1:My Button Text}\", class: \"${2:class}\" %>",
+    "description": "ERB submit tag",
+    "scope": "erb"
+  },
+  "tft": {
+    "prefix": "tft",
+    "body": "<%= text_field_tag \"${1:name}\", \"${2:value}\", placeholder: \"${3:placeholder}\", class: \"${4:class}\" %>",
+    "description": "ERB text field tag",
+    "scope": "erb"
+  },
+  "unless": {
+    "prefix": "unless",
+    "body": "\n<% unless $1 %>\n\t$0\n<% end %>\n",
+    "description": "ERB unless / end",
+    "scope": "erb"
+  },
+  "image tag": {
+    "prefix": "it",
+    "body": "<%= image_tag ${1:source}, alt: \"${2:text}\" %>",
+    "description": "Image tag",
+    "scope": "erb"
+  },
+  "cloudinary image tag": {
+    "prefix": "clt",
+    "body": "<%= cl_image_tag(@$1) %>",
+    "description": "a cloudinary image tag",
+    "scope": "erb"
+  },
+  "time ago in words": {
+    "prefix": "tw",
+    "body": "<%= time_ago_in_words($1) %>",
+    "description": "distance from time tag",
+    "scope": "erb"
+  },
+  "simple form helper": {
+    "prefix": "sf",
+    "body": "<%= simple_form_for @${1:model} do |form| %>\n\t$0\n<% end %>\n",
+    "description": "simple form tag",
+    "scope": "erb"
+  },
+  "simple form nested model helper": {
+    "prefix": "sfn",
+    "body": "<%= simple_form_for [@${1:first}, @${2:second}] do |form| %>\n\t$0\n<% end %>\n",
+    "description": "nested model simple form tag",
+    "scope": "erb"
+  },
+  "simple form input": {
+    "prefix": "fi",
+    "body": "<%= f.input :${1:attribute} %>",
+    "description": "Input for simple form",
+    "scope": "erb"
+  },
+  "hidden field tag": {
+    "prefix": "hft",
+    "body": "<%= hidden_field_tag :${1:label}, ${2:value} %>",
+    "description": "Hidden field tag helper",
+    "scope": "erb"
+  },
+  "simple form submit": {
+    "prefix": "ft",
+    "body": "<%= f.submit '${1:text}' %>",
+    "description": "Submit tag for simple form",
+    "scope": "erb"
+  },
+  "link to if": {
+    "prefix": "lft",
+    "body": "<%= link_to_if($1, $2) %>",
+    "description": "Link to if tag",
+    "scope": "erb"
+  },
+  "javascript pack tag": {
+    "prefix": "jpt",
+    "body": "<%= javascript_pack_tag '$1' %>",
+    "description": "javascript pack tag",
+    "scope": "erb"
+  },
+  "cloudinary image path": {
+    "prefix": "clp",
+    "body": "<%= cl_image_path($1) %>",
+    "description": "a cloudinary image path",
+    "scope": "erb"
+  },
+  "turbo frame tag": {
+    "prefix": "tf",
+    "body": "<%= turbo_frame_tag $1 %>",
+    "description": "Generates a Turbo frame tag",
+    "scope": "erb"
+  },
+  "turbo stream from tag": {
+    "prefix": "ts",
+    "body": "<%= turbo_stream_from $1 %>",
+    "description": "Generates a turbo_stream_from tag",
+    "scope": "erb"
+  }
+}

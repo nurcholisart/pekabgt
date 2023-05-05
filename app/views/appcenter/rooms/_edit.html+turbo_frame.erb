@@ -1,0 +1,22 @@
+<div id="message_<%= message.id %>" class="space-y-2">
+  <div class="flex items-center flex-row-reverse">
+    <div class="flex-1 bg-white text-black border p-5 rounded-lg relative">
+      <button type="button" class="flex absolute top-[-16px] right-3 text-white bg-black font-light rounded-full text-xs px-3 py-1.5 mr-2 mb-2" disabled>
+        <%= inline_svg_tag("robot.svg", width: "15", height: "15", class: "mr-1") %>
+        Suggestion
+      </button>
+
+      <div class="break-all">
+        <textarea id="message"
+                    maxlength="4000"
+                    data-controller="textarea-autogrow"
+                    data-textarea-autogrow-resize-debounce-delay-value="500"
+                    rows="1"
+                    class="block w-full text-base text-black bg-transparent border-none p-0 outline-none focus:outline-none focus-visible:outline-none focus:border-none focus-visible:outline-none ring-0 focus:ring-0"
+                    placeholder=""><%= remove_action_message(message.content).strip %></textarea>
+      </div>
+
+      <div class="absolute right-0 top-1/2 transform translate-x-1/2 rotate-45 w-2 h-2 bg-white border-t border-r"></div>
+    </div>
+  </div>
+</div>

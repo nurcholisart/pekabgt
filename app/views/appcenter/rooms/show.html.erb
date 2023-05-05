@@ -1,0 +1,9 @@
+<%= turbo_stream_from "room_#{@room_id}_messages" %>
+
+<div class="w-full h-[900px] flex flex-col" data-controller="widget">
+  <div id="room_<%= @room_id %>_messages" class="flex-1 px-4 py-4 min-h-full space-y-6">
+    <% @messages.each do |message| %>
+      <%= render "message", message: message %>
+    <% end %>
+  </div>
+</div>

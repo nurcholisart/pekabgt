@@ -1,0 +1,74 @@
+<div class="max-full p-8 bg-white border border-gray-200 rounded-md shadow space-y-4">
+  <div class="flex justify-between items-center">
+    <h1 class="text-lg pb-6 text-[#555555] font-bold">Embeddings</h1>
+    <%= button_to "New Embedding",
+                  appcenter_embeddings_path,
+                  method: :post,
+                  class: "text-white bg-[#23B098] font-medium rounded-lg text-sm px-5 py-2.5" %>
+  </div>
+
+  <div class="relative overflow-x-auto shadow-md rounded">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3">
+            Version
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Cost
+          </th>
+          <th scope="col" class="px-6 py-3">
+            FAISS File
+          </th>
+          <th scope="col" class="px-6 py-3">
+            PKL File
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Status
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Active?
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Notes
+          </th>
+          <th scope="col" class="px-6 py-3">
+            Action
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @embeddings.each do |embedding| %>
+          <tr class="bg-white border-b">
+            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <%= embedding.version %>
+            </th>
+            <td class="px-6 py-4">
+              <%= embedding.cost %>
+            </td>
+            <td class="px-6 py-4">
+              <%= embedding.faiss_url %>
+            </td>
+            <td class="px-6 py-4">
+              <%= embedding.pkl_url %>
+            </td>
+            <td class="px-6 py-4">
+              <%= embedding.status %>
+            </td>
+            <td class="px-6 py-4">
+              <%= embedding.active %>
+            </td>
+            <td class="px-6 py-4">
+              <%= embedding.notes %>
+            </td>
+            <td>
+              <div class="flex items-center justify-center space-x-4">
+                <%= link_to "Show", appcenter_embedding_path(embedding), class: "text-white bg-[#23B098] font-medium rounded-lg text-sm px-5 py-2.5" %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

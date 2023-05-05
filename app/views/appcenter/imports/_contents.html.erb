@@ -1,0 +1,94 @@
+<% if @articles.blank? %>
+  <%=  inline_svg_tag("vault.svg", height: 300) %>
+  <div class="flex justify-center m-5">Please Fetch Articles...</div>
+<% else %>
+  <%= form_with model: @embedding, url: appcenter_embedding_path(@embedding), method: :patch do |form| %>
+    <div class="relative overflow-x-auto shadow-md rounded">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" data-controller="checkbox-select-all">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="p-4">
+              <div class="flex items-center">
+                <input type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" data-checkbox-select-all-target="checkboxAll">
+                <label for="checkbox-all" class="sr-only">checkbox</label>
+              </div>
+            </th>
+            <th scope="col" class="px-6 py-3">
+              ID
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Date
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Title
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Content
+            </th>
+            <th scope="col" class="px-6 py-3">
+              Link
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @embedding.hashed_contents.each do |content| %>
+            <tr class="bg-white border-b">
+              <td class="w-4 p-4">
+                <div class="flex items-center">
+
+                  <% if true %>
+                    <input class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                         data-checkbox-select-all-target="checkbox"
+                         type="checkbox"
+                         name="embedding[content[][checked]]">
+                  <% end %>
+
+                  
+                  <% if false %>
+                    <%= form.check_box "content[][id]",
+                                     class: "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2",
+                                     "data-checkbox-select-all-target": "checkbox" %>
+                  <% end %>
+                  
+
+                  <label for="checkbox-table-1" class="sr-only">checkbox</label>
+                </div>
+              </td>
+
+              <%= form.hidden_field "content[][id]", value: content[:id] %>
+              <%= form.hidden_field "content[][platform]", value: "wordpress" %>
+              <%= form.hidden_field "content[][created_at]", value: content[:created_at] %>
+              <%= form.hidden_field "content[][title]", value: content[:title] %>
+              <%= form.hidden_field "content[][content]", value: content[:content] %>
+              <%= form.hidden_field "content[][link]", value: content[:link] %>
+
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <%= content[:id] %>
+              </th>
+              <td class="px-6 py-4">
+                <%= content[:created_at] %>
+              </td>
+              <td class="px-6 py-4">
+                <%= content[:title] %>
+              </td>
+              <td class="px-6 py-4">
+                <%= strip_tags(content[:content]).truncate(200) %>
+              </td>
+              <td class="px-6 py-4">
+                <p class="text-sm truncate"><%= content[:link] %></p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <% if @articles.present? %>
+      <div class="flex justify-end py-3 gap-4">
+        <%= form.button type: "submit", class: "text-white flex items-center bg-[#23B098] focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" do %>
+          Import Selected Contents
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

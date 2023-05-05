@@ -1,0 +1,19 @@
+<h1 class="font-semibold text-[#555555] text-2xl leading-8 tracking-normal pb-8">PekaBGT</h1>
+
+<ul class="max-w-md space-y-4 text-gray-500 list-none list-inside">
+  <li class="p-1 rounded-lg">
+    <%= link_to appcenter_accounts_path, class: "flex" do %>
+      <%= inline_svg_tag("settings.svg", class: "mr-3") %> Accounts
+    <% end %>
+  </li>
+  <li class="p-1 rounded-lg">
+    <%= link_to appcenter_embeddings_path, class: "flex" do %>
+      <%= inline_svg_tag("cpu.svg", class: "mr-3") %> Embeddings
+    <% end %>
+  </li>
+  <li class="p-1 rounded-lg">
+    <%= link_to appcenter_accounts_path, class: "flex" do %>
+        <%= inline_svg_tag("share.svg", class: "mr-3 mt-1", width: 19, height: 19) %> Cost Control
+      <% end %>
+  </li>
+</ul>

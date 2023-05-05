@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+bundle exec annotate --models --exclude fixtures

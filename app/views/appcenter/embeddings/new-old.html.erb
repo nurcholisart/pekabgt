@@ -1,0 +1,52 @@
+<%= render "shared/container", title: "Embeddings" do %>
+
+  <ul class="flex flex-wrap items-center justify-start mb-3 text-gray-900 pb-8">
+    <% import_platforms.each do |plt| %>
+      <li>
+
+        <% if plt[:available] %>
+          <div>
+            <%= link_to plt[:name], "#", class: "mr-4 hover:bg-gray-100 md:mr-6 border p-4 rounded" %>
+          </div>
+
+        <% else %>
+          <div data-tooltip-target="tooltip-default">
+            <button type="button" class="mr-4 bg-gray-100 md:mr-6 border p-3 rounded" disabled><%= plt[:name] %></button>
+          </div>
+
+          <div id="tooltip-default" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+            Coming Soon
+            <div class="tooltip-arrow" data-popper-arrow></div>
+          </div>
+
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <hr class="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700">
+
+  <%= form_with url: new_appcenter_embedding_path, class: "py-3", method: :get do |form| %>
+    <%= form.label :url, "Your Wordpress Knowledge Base URL", class: "block mb-2 text-sm font-medium text-gray-900" %>
+    <div class="flex items-center gap-4">
+      <div class="w-full">
+        <%= form.url_field :url,
+                        class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+                        required: true,
+                        value: @url,
+                        placeholder: "https://wordpress-knowledge-base.com" %>
+      </div>
+
+      <div>
+        <%= form.submit "Fetch Articles",
+                        role: "button",
+                        class: "text-white bg-[#23B098] focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center",
+                        data: { turbo_disable_with: "Fetching..." } %>
+      </div>
+    </div>
+  <% end %>
+
+  <hr class="h-px my-3 bg-gray-200 border-0 dark:bg-gray-700">
+
+  <%= render "articles" %>
+<% end %>

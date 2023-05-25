@@ -253,6 +253,8 @@ GEM
       io-console (~> 0.5)
     request_store (1.5.1)
       rack (>= 1.4)
+    reverse_markdown (2.1.1)
+      nokogiri
     rexml (3.2.5)
     rubocop (1.50.2)
       json (~> 2.3)
@@ -344,6 +346,7 @@ DEPENDENCIES
   rack-cors (~> 2.0)
   rails (~> 7.0.4, >= 7.0.4.3)
   redis (~> 4.0)
+  reverse_markdown (~> 2.1)
   rubocop-rails (~> 2.19)
   selenium-webdriver
   sprockets-rails

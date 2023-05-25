@@ -22,11 +22,13 @@ gem "qismo", "~> 0.18.3"
 gem "rack-cors", "~> 2.0"
 gem "rails", "~> 7.0.4", ">= 7.0.4.3"
 gem "redis", "~> 4.0"
+gem "reverse_markdown", "~> 2.1"
 gem "sprockets-rails"
 gem "stimulus-rails"
 gem "store_attribute", "~> 1.1"
 gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
+gem "ulid", "~> 1.4"
 
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
@@ -45,5 +47,3 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
-
-gem "ulid", "~> 1.4"

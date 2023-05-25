@@ -62,7 +62,7 @@ class CustomerMessageJob < ApplicationJob
 
     qismo_room = qismo.get_room(room_id: webhook.payload.room.id)
 
-    qismo.resolve_room(room_id: webhook.payload.room.id) if "#end_chat".in?(result[:answer]) && qismo_room.is_waiting
+    # qismo.resolve_room(room_id: webhook.payload.room.id) if "#end_chat".in?(result[:answer]) && qismo_room.is_waiting
 
     true
   end
@@ -75,7 +75,7 @@ class CustomerMessageJob < ApplicationJob
   # @return [Embedding]
   #
   def active_embedding(tenant)
-    embedding = tenant.embeddings.where(active: true).first
+    embedding = tenant.embeddings.where(active: true).last
     embedding = tenant.embeddings.first if embedding.blank?
 
     embedding

@@ -40,6 +40,7 @@ group :development do
   gem "annotate", "~> 3.2"
   gem "dockerfile-rails", ">= 1.2"
   gem "web-console"
+  gem "yard", "~> 0.9.34"
 end
 
 group :test do

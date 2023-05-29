@@ -19,6 +19,8 @@ services:
       - redis-data:/data
 
   app:
+    tty: true
+    stdin_open: true
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile

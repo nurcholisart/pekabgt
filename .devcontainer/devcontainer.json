@@ -6,7 +6,28 @@
   "customizations": {
     "vscode": {
       "settings": {
-        "dev.containers.copyGitConfig": true
+        "dev.containers.copyGitConfig": true,
+        "terminal.integrated.shellIntegration.enabled": true,
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "bash",
+            "icon": "terminal-bash"
+          },
+          "zsh": {
+            "path": "zsh"
+          },
+          "fish": {
+            "path": "fish"
+          },
+          "tmux": {
+            "path": "tmux",
+            "icon": "terminal-tmux"
+          },
+          "pwsh": {
+            "path": "pwsh",
+            "icon": "terminal-powershell"
+          }
+        }
       },
       "extensions": [
         "rebornix.Ruby",
@@ -27,6 +48,7 @@
   },
   "forwardPorts": [
     3000,
+    8025,
     5432
   ],
   "postCreateCommand": "sh ./.devcontainer/postCreateCommand.sh",

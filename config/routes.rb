@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount GoodJob::Engine => "gj"
+
   namespace :appcenter do
     namespace :webhooks do
       defaults format: :json do

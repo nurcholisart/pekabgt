@@ -71,6 +71,8 @@ class CustomerMessageJob < ApplicationJob
     qismo.resolve_room(room_id: webhook.payload.room.id) if tenant.chatbot_enabled && "#end_chat".in?(result[:answer])
 
     true
+  rescue StandardError
+    false
   end
 
   private

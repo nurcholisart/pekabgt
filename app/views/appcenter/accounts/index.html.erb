@@ -51,6 +51,9 @@
                           class: "bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
                           required: true,
                           value: Current.tenant.chatbot_name || Tenant::DEFAULT_CHATBOT_NAME %>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        Even if you dont enable chatbot, this field is still required for agent assistant mode
+      </p>
     </div>
 
     <div class="mb-6">
@@ -60,6 +63,9 @@
                           required: true,
                           rows: 5,
                           value: Current.tenant.chatbot_description || Tenant::DEFAULT_CHATBOT_DESCRIPTION %>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        Even if you dont enable chatbot, this field is still required for agent assistant mode
+      </p>
     </div>
 
     <div class="mb-6">

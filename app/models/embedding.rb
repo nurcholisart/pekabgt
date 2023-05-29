@@ -35,7 +35,7 @@ class Embedding < ApplicationRecord
   end
 
   def can_be_activated?
-    faiss_url.present? && pkl_url.present?
+    faiss_url.present? && pkl_url.present? && faiss_url != "-" && pkl_url != "-"
   end
 
   def can_be_trained?

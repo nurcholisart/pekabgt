@@ -1,34 +1,4 @@
-<%= render "shared/container", title: "Embedding #{@embedding.version}" do %>
-  <ul class="space-y-1 text-gray-500 list-none list-inside">
-    <li>
-      Version: <%= @embedding.version %>
-    </li>
-    <li>
-      Cost: $<%= @embedding.cost || "-" %>
-    </li>
-    <li>
-      FAISS URL: <%= @embedding.faiss_url %>
-    </li>
-    <li>
-      PKL URL: <%= @embedding.pkl_url %>
-    </li>
-    <li>
-      Status: <%= @embedding.status %>
-    </li>
-    <li>
-      Notes: <%= @embedding.notes %>
-    </li>
-    <li>
-
-      <% if @embedding.content.present? %>
-        Content: Exist
-
-      <% else %>
-        Content: You don't imported any content, please run content imports using this <%= link_to "Link", appcenter_embedding_imports_path(@embedding), class: "bg-red-400" %>
-      <% end %>
-    </li>
-  </ul>
-
+<%= render "shared/container", title: "Embedding v#{@embedding.version}" do %>
   <div class="flex items-center justify-end space-x-4 mb-5">
     <div>
       <% if @embedding.can_be_trained? %>
@@ -44,31 +14,46 @@
         <% end %>
       <% end %>
     </div>
-    <div>
-      <%= form_with url: activation_appcenter_embedding_path(@embedding) do |form| %>
 
-        <% if @embedding.active %>
-          <% value = false %>
-          <% text = "Deactivate" %>
-        <% else %>
-          <% value = true %>
-          <% text = "Activate" %>
+    <% if @embedding.can_be_activated? %>
+      <div>
+        <%= form_with url: activation_appcenter_embedding_path(@embedding) do |form| %>
+
+          <% if @embedding.active %>
+            <% value = false %>
+            <% text = "Deactivate" %>
+          <% else %>
+            <% value = true %>
+            <% text = "Activate" %>
+          <% end %>
+
+          <%= form.hidden_field :active, value: value %>
+          <%= form.button text, role: "submit", class: "text-black bg-gray-300 font-medium rounded-lg text-sm px-5 py-2.5", data: { turbo_confirm: "Are you sure want to #{@embedding.active ? "deactivate" : "activate"} this embedding?" } %>
         <% end %>
+      </div>
+    <% end %>
 
-        <%= form.hidden_field :active, value: value %>
-        <%= form.submit text, role: "button", class: "text-black bg-gray-300 font-medium rounded-lg text-sm px-5 py-2.5" %>
-      <% end %>
-    </div>
     <div>
       <%= button_to "Delete",
                   appcenter_embedding_path(@embedding),
                   method: :delete,
-                  class: "text-white bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5" %>
+                  class: "text-white bg-red-600 font-medium rounded-lg text-sm px-5 py-2.5",
+                  form: { data: { turbo_confirm: "Are you sure you want to delete this embedding? This action cannot be undone as we will remove it from our database." } } %>
     </div>
   </div>
 
   <div class="relative overflow-x-auto shadow-md rounded">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" data-controller="checkbox-select-all">
+
+      <% if @embedding.cost && @embedding.cost != "0" %>
+        <caption class="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+          Articles
+          <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
+            The list of articles in the table below is ready to be trained/embedded. Based on our automatic calculations, the cost required to train/embed the articles below is <b>$<%= @embedding.cost %></b>.
+          </p>
+        </caption>
+      <% end %>
+
       <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
         <tr>
           <th scope="col" class="px-6 py-3">

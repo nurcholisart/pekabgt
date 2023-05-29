@@ -66,7 +66,7 @@ module Appcenter
       @embedding = Current.tenant.embeddings.find(params[:id])
 
       if ActiveModel::Type::Boolean.new.cast(params[:active])
-        Current.tenant.embeddings.active.update_all(active: false)
+        Current.tenant.embeddings.where(active: true).update_all(active: false)
         @embedding.update(active: true)
 
         redirect_to appcenter_embedding_path(@embedding), notice: "Success activated Embedding"

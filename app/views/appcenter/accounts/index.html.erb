@@ -1,11 +1,12 @@
 <%= render "shared/container", title: "Accounts" do %>
-  <%= form_with model: Current.tenant, url: appcenter_accounts_path, method: :post do |form| %>
+  <%= form_with url: "#" do |form| %>
     <div class="mb-6">
       <%= form.label :code, "App Code", class: "block mb-2 text-sm font-medium text-gray-900" %>
       <%= form.text_field :code,
                           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
                           disabled: true,
-                          readonly: true %>
+                          readonly: true,
+                          value: Current.tenant.code %>
     </div>
 
     <div class="mb-6">
@@ -13,14 +14,8 @@
       <%= form.text_field :secret_key,
                           class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
                           disabled: true,
-                          readonly: true %>
-    </div>
-
-    <div class="mb-6">
-      <%= form.label :openai_api_key, "OpenAI API Key", class: "block mb-2 text-sm font-medium text-gray-900" %>
-      <%= form.text_field :openai_api_key,
-                          class: "bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
-                          required: true %>
+                          readonly: true,
+                          value: Current.tenant.secret_key %>
     </div>
 
     <div class="mb-6">
@@ -34,6 +29,36 @@
       <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500">
         Please copy URL above to Qiscus Omnichannel chatbot URL 
       </p>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="my-5"></div>
+
+<%= render "shared/container", title: "Preferences" do %>
+  <%= form_with model: Current.tenant, url: appcenter_accounts_path, method: :post do |form| %>
+
+    <div class="mb-6">
+      <%= form.label :openai_api_key, "OpenAI API Key", class: "block mb-2 text-sm font-medium text-gray-900" %>
+      <%= form.text_field :openai_api_key,
+                          class: "bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+                          required: true %>
+    </div>
+
+    <div class="mb-6">
+      <label class="relative inline-flex items-center cursor-pointer">
+        <%= form.check_box :chatbot_enabled, checked: Current.tenant.chatbot_enabled, class: "sr-only peer" %>
+        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Enable Chatbot</span>
+      </label>
+    </div>
+
+    <div class="mb-6">
+      <label class="relative inline-flex items-center cursor-pointer">
+        <%= form.check_box :agent_assistant_enabled, checked: Current.tenant.agent_assistant_enabled, class: "sr-only peer" %>
+        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Enable Agent Assistant Widget</span>
+      </label>
     </div>
 
     <%= form.submit "Save", class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>

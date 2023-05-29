@@ -15,24 +15,18 @@
             Version
           </th>
           <th scope="col" class="px-6 py-3">
-            Cost
+            Embedding Cost
           </th>
           <th scope="col" class="px-6 py-3">
-            FAISS File
-          </th>
-          <th scope="col" class="px-6 py-3">
-            PKL File
+            Embedding Status
           </th>
           <th scope="col" class="px-6 py-3">
             Status
           </th>
           <th scope="col" class="px-6 py-3">
-            Active?
-          </th>
-          <th scope="col" class="px-6 py-3">
             Notes
           </th>
-          <th scope="col" class="px-6 py-3">
+          <th scope="col" class="px-6 py-3 flex justify-end">
             Action
           </th>
         </tr>
@@ -44,25 +38,23 @@
               <%= embedding.version %>
             </th>
             <td class="px-6 py-4">
-              <%= embedding.cost %>
+              $<%= embedding.cost %>
             </td>
             <td class="px-6 py-4">
-              <%= embedding.faiss_url %>
+              <%= embedding.status.humanize %>
             </td>
             <td class="px-6 py-4">
-              <%= embedding.pkl_url %>
-            </td>
-            <td class="px-6 py-4">
-              <%= embedding.status %>
-            </td>
-            <td class="px-6 py-4">
-              <%= embedding.active %>
+              <% if embedding.active? %>
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Active</span>
+              <% else %>
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Inactive</span>
+              <% end %>
             </td>
             <td class="px-6 py-4">
               <%= embedding.notes %>
             </td>
-            <td>
-              <div class="flex items-center justify-center space-x-4">
+            <td class="pr-4 py-4">
+              <div class="flex items-center justify-end space-x-4">
                 <%= link_to "Show", appcenter_embedding_path(embedding), class: "text-white bg-[#23B098] font-medium rounded-lg text-sm px-5 py-2.5" %>
               </div>
             </td>

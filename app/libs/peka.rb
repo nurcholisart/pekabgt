@@ -7,8 +7,8 @@ class Peka
 
   # Request
   # [
-  #   "Most of the answers above require you to specify precision. But what if you want to display floats like this, with no unnecessary zeros:",
-  #   "Most of the answers above require you to specify precision. But what if you want to display floats like this, with no unnecessary zeros:"
+  #   "Most of the answers above require you to specify precision. But what if you want to display floats...",
+  #   "Most of the answers above require you to specify precision. But what if you want to display floats..."
   # ]
   #
   #
@@ -36,7 +36,7 @@ class Peka
   #     {
   #       "title": "How to Delete a Chat Room?",
   #       "link": "https://support.qiscus.com/hc/en-us/articles/900000639063-How-to-Delete-a-Chat-Room-",
-  #       "content": "To delete a Qiscus chat room you only need to remove its' participants. You can easily remove the participants using our REST API. You can consult this documentation on how to do it https://documentation.qiscus.com/chat-server-api/chat-room#remove-participant-in-chat-room\n\nAfter you remove all participants, you'll no longer get the room when using load rooms API."
+  #       "content": "To delete a Qiscus chat room you only need to remove its' participants. You can easily remove.."
   #     }
   #   ]
   # }
@@ -69,11 +69,11 @@ class Peka
   # Response
   # {
   #   "question": "Tolong hubungkan saya saja dengan agent. Mungkin human agent bisa lebih membantu!",
-  #   "answer": " Maaf, saya hanya dapat menjawab pertanyaan tentang Qiscus. Silakan tunggu sebentar, saya akan menghubungkan Anda dengan agent untuk membantu Anda.#assign_agent",
+  #   "answer": " Maaf, saya hanya dapat menjawab pertanyaan tentang Qiscus. Silakan tunggu sebentar...",
   #   "chat_history": [],
   #   "source_documents": [
   #     {
-  #       "page_content": "To delete a Qiscus chat room you only need to remove its' participants. You can easily remove the participants using our REST API. You can consult this documentation on how to do it https://documentation.qiscus.com/chat-server-api/chat-room#remove-participant-in-chat-room\n\nAfter you remove all participants, you'll no longer get the room when using load rooms API.",
+  #       "page_content": "To delete a Qiscus chat room you only need to remove its' participants. You can easily...",
   #       "metadata": {
   #         "title": "How to Delete a Chat Room?",
   #         "link": "https://support.qiscus.com/hc/en-us/articles/900000639063-How-to-Delete-a-Chat-Room-"

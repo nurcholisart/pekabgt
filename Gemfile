@@ -48,3 +48,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem "redcarpet", "~> 3.6"

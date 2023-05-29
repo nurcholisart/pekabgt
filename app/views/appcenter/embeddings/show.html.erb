@@ -31,10 +31,15 @@
 
   <div class="flex items-center justify-end space-x-4 mb-5">
     <div>
-      <% if @embedding.content.present? %>
-        <%= button_to train_appcenter_embedding_path(@embedding), method: :post, class: "text-white flex items-center bg-[#23B098] focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" do %>
-          <div class="flex items-center justify-between">
-            Train this Embedding
+      <% if @embedding.can_be_trained? %>
+        <%= button_to train_appcenter_embedding_path(@embedding),
+                      method: :post,
+                      class: "text-white flex items-center bg-[#23B098] disabled:opacity-75 focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center",
+                      form: { data: { turbo_confirm: "Are you sure you want to train these articles? Please be cautious as this process will currently involve training all of your articles, resulting in significant expenses." } } do %>
+          <div class="group flex items-center justify-between">
+
+            <span class="group-disabled:hidden">Train Articles</span>
+            <span class="hidden group-disabled:flex items-center"><%= render_svg("spinner", class: "!w-4 !h-4") %> Loading...</span>
           </div>
         <% end %>
       <% end %>
@@ -96,7 +101,7 @@
               <%= content[:title] %>
             </td>
             <td class="px-6 py-4">
-              <%= strip_tags(content[:content]).truncate(200) %>
+              <%= markdown_to_plain(content[:content]).truncate(200) %>
             </td>
             <td class="px-6 py-4">
               <p class="text-sm truncate"><%= content[:link] %></p>

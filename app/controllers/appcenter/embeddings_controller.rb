@@ -5,7 +5,7 @@ module Appcenter
     before_action :authenticate_current_tenant
 
     def index
-      @embeddings = Current.tenant.embeddings.order(id: :desc)
+      @embeddings = Current.tenant.embeddings.where.not(content: nil).order(id: :desc)
     end
 
     def create
@@ -66,10 +66,11 @@ module Appcenter
       @embedding = Current.tenant.embeddings.find(params[:id])
 
       if ActiveModel::Type::Boolean.new.cast(params[:active])
+        Current.tenant.embeddings.active.update_all(active: false)
         @embedding.update(active: true)
+
         redirect_to appcenter_embedding_path(@embedding), notice: "Success activated Embedding"
       else
-        # klo gak ada yg active, maka jangan deactivate
         existed_active_embedding = Current.tenant.embeddings.find_by(active: true)
         if existed_active_embedding.blank?
           redirect_to appcenter_embedding_path(@embedding), alert: "You must atleast has one active embedding"

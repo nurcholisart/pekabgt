@@ -32,17 +32,23 @@
     <div class="flex items-center gap-4">
       <div class="w-full">
         <%= form.url_field :url,
-                        class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+                        class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5",
                         required: true,
                         value: @url,
                         placeholder: "https://wordpress-knowledge-base.com" %>
       </div>
 
       <div>
-        <%= form.submit "Fetch Contents",
-                        role: "button",
-                        class: "text-white bg-[#23B098] focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center",
-                        data: { turbo_disable_with: "Fetching..." } %>
+        <%= form.button role: "button",
+                        class: "text-white group whitespace-nowrap bg-[#23B098] disabled:opacity-75 focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center disabled:cursor-not-allowed",
+                        data: { turbo_disable_with: "Fetching..." } do %>
+
+          <span class="group-disabled:hidden flex items-center">Fetch Contents</span>
+
+          <span class="hidden group-disabled:flex items-center">
+            <%= render_svg("spinner", class: "!w-4 !h-4") %> Loading...
+          </span>
+        <% end %>
       </div>
     </div>
   <% end %>

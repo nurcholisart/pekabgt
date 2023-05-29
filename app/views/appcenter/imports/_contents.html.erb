@@ -59,7 +59,7 @@
               <%= form.hidden_field "content[][platform]", value: "wordpress" %>
               <%= form.hidden_field "content[][created_at]", value: content[:created_at] %>
               <%= form.hidden_field "content[][title]", value: content[:title] %>
-              <%= form.hidden_field "content[][content]", value: content[:content] %>
+              <%= form.hidden_field "content[][content]", value: markdown_to_plain(content[:content]) %>
               <%= form.hidden_field "content[][link]", value: content[:link] %>
 
               <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -72,7 +72,7 @@
                 <%= content[:title] %>
               </td>
               <td class="px-6 py-4">
-                <%= strip_tags(content[:content]).truncate(200) %>
+                <%= markdown_to_plain(content[:content]).truncate(200) %>
               </td>
               <td class="px-6 py-4">
                 <p class="text-sm truncate"><%= content[:link] %></p>
@@ -85,8 +85,9 @@
 
     <% if @articles.present? %>
       <div class="flex justify-end py-3 gap-4">
-        <%= form.button type: "submit", class: "text-white flex items-center bg-[#23B098] focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" do %>
-          Import Selected Contents
+        <%= form.button type: "submit", class: "disabled:opacity-75 group text-white flex items-center bg-[#23B098] focus:ring-4 focus:outline-nonefont-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center" do %>
+          <span class="group-disabled:hidden">Import Selected Contents</span>
+          <span class="hidden group-disabled:flex items-center"><%= render_svg("spinner", class: "!w-4 !h-4") %> Loading...</span>
         <% end %>
       </div>
     <% end %>

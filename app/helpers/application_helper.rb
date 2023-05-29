@@ -1,6 +1,16 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  def render_svg(name, options = {})
+    filename = if name.end_with?(".svg")
+                 name
+               else
+                 "#{name}.svg"
+               end
+
+    inline_svg_tag(filename, options)
+  end
+
   def chatbot_webhook_url(tenant)
     base_url = if request.host == "localhost"
                  "http://localhost:3000"

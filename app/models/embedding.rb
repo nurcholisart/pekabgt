@@ -33,4 +33,20 @@ class Embedding < ApplicationRecord
   def hashed_contents
     JSON.parse(content || [].to_json, object_class: HashWithIndifferentAccess)
   end
+
+  def can_be_activated?
+    faiss_url.present? && pkl_url.present?
+  end
+
+  def can_be_trained?
+    content.present?
+  end
+
+  def activate
+    update(active: true)
+  end
+
+  def deactivate
+    update(active: false)
+  end
 end

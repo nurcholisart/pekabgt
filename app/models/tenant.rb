@@ -18,6 +18,7 @@
 #
 class Tenant < ApplicationRecord
   store_attribute :preferences, :openai_api_key, :string, default: "undefined_api_key"
+  store_attribute :preferences, :chatbot_enabled, :boolean, default: false
 
   validates :name, :admin_email, :code, :secret_key, :admin_token, :admin_sdk_token, presence: true
   validates :code, uniqueness: true

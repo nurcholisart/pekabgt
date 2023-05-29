@@ -60,7 +60,7 @@
                 <%= article[:title] %>
               </td>
               <td class="px-6 py-4">
-                <%= strip_tags(article[:content]).truncate(200) %>
+                <%= markdown_to_plain(article[:content]).truncate(200) %>
               </td>
               <td class="px-6 py-4">
                 <p class="text-sm truncate"><%= article[:link] %></p>

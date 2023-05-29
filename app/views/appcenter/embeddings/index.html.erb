@@ -24,6 +24,9 @@
             Status
           </th>
           <th scope="col" class="px-6 py-3">
+            Model Ready
+          </th>
+          <th scope="col" class="px-6 py-3">
             Notes
           </th>
           <th scope="col" class="px-6 py-3 flex justify-end">
@@ -49,6 +52,15 @@
               <% else %>
                 <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300">Inactive</span>
               <% end %>
+            </td>
+            <td class="px-6 py-4">
+              
+              <% if embedding.faiss_url && embedding.pkl_url && embedding.faiss_url != "-" && embedding.pkl_url != "-" %>
+                Ready
+              <% else %>
+                Not Ready
+              <% end %>
+              
             </td>
             <td class="px-6 py-4">
               <%= embedding.notes %>

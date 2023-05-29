@@ -60,7 +60,7 @@ class CustomerMessageJob < ApplicationJob
 
     qismo.allocate_and_assign_agent(room_id: webhook.payload.room.id) if "#assign_agent".in?(result[:answer])
 
-    qismo_room = qismo.get_room(room_id: webhook.payload.room.id)
+    # qismo_room = qismo.get_room(room_id: webhook.payload.room.id)
 
     # qismo.resolve_room(room_id: webhook.payload.room.id) if "#end_chat".in?(result[:answer]) && qismo_room.is_waiting
 

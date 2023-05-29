@@ -81,12 +81,14 @@ class Peka
   #     }
   #   ]
   # }
-  def query_message(question, faiss_url, pkl_url, chat_history = [])
+  def query_message(question, faiss_url, pkl_url, chatbot_name, chatbot_description, chat_history = [])
     resp = HTTP.post("#{@url}/chats", json: {
                        question: question,
                        api_key: @api_key,
                        faiss_url: faiss_url,
                        pkl_url: pkl_url,
+                       chatbot_name: chatbot_name,
+                       chatbot_description: chatbot_description,
                        chat_history: chat_history
                      })
 

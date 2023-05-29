@@ -38,14 +38,16 @@ class CustomerMessageJob < ApplicationJob
     end
 
     # create chatbot message
-    chatbot_message = tenant.messages.create(
-      sender_id: "chatbot",
-      sender_type: "chatbot",
-      sender_name: "Chatbot",
-      qiscus_room_id: webhook.payload.room.id,
-      content: "AI is generating content...",
-      status: "draft"
-    )
+    if tenant.agent_assistant_enabled
+      chatbot_message = tenant.messages.create(
+        sender_id: "chatbot",
+        sender_type: "chatbot",
+        sender_name: "Chatbot",
+        qiscus_room_id: webhook.payload.room.id,
+        content: "AI is generating content...",
+        status: "draft"
+      )
+    end
 
     peka = Peka.new(tenant.code, tenant.openai_api_key)
     result = peka.query_message(customer_message.content, embedding.faiss_url, embedding.pkl_url)
@@ -56,13 +58,17 @@ class CustomerMessageJob < ApplicationJob
     answer = answer.gsub("#assign_agent", "")
     answer = answer.strip
 
-    chatbot_message.update(content: answer, status: "published")
+    chatbot_message.update(content: answer, status: "published") if tenant.agent_assistant_enabled
+
+    if tenant.chatbot_enabled
+      qismo.send_bot_message(
+        room_id: webhook.payload.room.id,
+        message: answer
+      )
+    end
 
     qismo.allocate_and_assign_agent(room_id: webhook.payload.room.id) if "#assign_agent".in?(result[:answer])
-
-    # qismo_room = qismo.get_room(room_id: webhook.payload.room.id)
-
-    # qismo.resolve_room(room_id: webhook.payload.room.id) if "#end_chat".in?(result[:answer]) && qismo_room.is_waiting
+    qismo.resolve_room(room_id: webhook.payload.room.id) if tenant.chatbot_enabled && "#end_chat".in?(result[:answer])
 
     true
   end

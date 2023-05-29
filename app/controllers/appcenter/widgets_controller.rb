@@ -19,6 +19,8 @@ module Appcenter
       tenant = Tenant.find_by(code: app_code)
       render("errors/not_found", status: :unauthorized) && return if tenant.blank?
 
+      render("errors/not_found", status: :not_found) && return unless tenant.agent_assistant_enabled
+
       create_session(tenant)
       redirect_to appcenter_rooms_path
     end

@@ -5,22 +5,15 @@ class CustomerMessageJob < ApplicationJob
   queue_as :default
 
   def perform(tenant_id, request_body)
-    puts "SAMPE 8====================================="
     # @type [Tenant]
     tenant = Tenant.find_by(id: tenant_id)
     return if tenant.blank?
-
-    puts "SAMPE 13====================================="
 
     qismo = tenant.qismo_client
 
     webhook = Qismo::WebhookRequests::OnMessageForBotSent.new(JSON.parse(request_body))
 
-    puts "SAMPE 19====================================="
-
     return if webhook.payload.message.type != "text"
-
-    puts "SAMPE 23====================================="
 
     # create customer message
     customer_message = tenant.messages.create!(
@@ -30,8 +23,6 @@ class CustomerMessageJob < ApplicationJob
       qiscus_room_id: webhook.payload.room.id,
       content: webhook.payload.message.text
     )
-
-    puts "SAMPE 34====================================="
 
     embedding = active_embedding(tenant)
     if embedding.blank?
@@ -46,8 +37,6 @@ class CustomerMessageJob < ApplicationJob
       return
     end
 
-    puts "SAMPE 49====================================="
-
     # create chatbot message
     if tenant.agent_assistant_enabled
       chatbot_message = tenant.messages.create(
@@ -59,8 +48,6 @@ class CustomerMessageJob < ApplicationJob
         status: "draft"
       )
     end
-
-    puts "SAMPE 63====================================="
 
     peka = Peka.new(tenant.code, tenant.openai_api_key)
     result = peka.query_message(
@@ -78,11 +65,7 @@ class CustomerMessageJob < ApplicationJob
     answer = answer.gsub("#dont_know", "")
     answer = answer.strip
 
-    puts "SAMPE 74====================================="
-
     chatbot_message.update(content: answer, status: "published") if tenant.agent_assistant_enabled
-
-    puts "SAMPE 78====================================="
 
     if tenant.chatbot_enabled
       qismo.send_bot_message(

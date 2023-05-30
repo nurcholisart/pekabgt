@@ -13,6 +13,10 @@ processes = []
 
 [env]
 
+[processes]
+app = "bin/rails server"
+worker = "bundle exec good_job start"
+
 [experimental]
   auto_rollback = true
 
@@ -22,6 +26,7 @@ processes = []
   processes = ["app"]
   protocol = "tcp"
   script_checks = []
+  
   [services.concurrency]
     hard_limit = 25
     soft_limit = 20

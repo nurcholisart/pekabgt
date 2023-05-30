@@ -26,6 +26,9 @@
           <th scope="col" class="px-6 py-3">
             Model Ready
           </th>
+          <th>
+            FAISS
+          </th>
           <th scope="col" class="px-6 py-3">
             Notes
           </th>
@@ -55,12 +58,21 @@
             </td>
             <td class="px-6 py-4">
               
-              <% if embedding.faiss_url && embedding.pkl_url && embedding.faiss_url != "-" && embedding.pkl_url != "-" %>
+              <% if embedding.model_ready? %>
                 Ready
               <% else %>
                 Not Ready
               <% end %>
-              
+            </td>
+            <td>
+              <% if embedding.model_ready? %>
+                <span class="flex flex-col">
+                  <a href="<%= embedding.faiss_url %>" target="_blank" class="text-blue-400">FAISS URL</a>
+                  <a href="<%= embedding.pkl_url %>" target="_blank" class="text-blue-400">PKL URL</a>
+                </span>
+              <% else %>
+                -
+              <% end %>
             </td>
             <td class="px-6 py-4">
               <%= embedding.notes %>

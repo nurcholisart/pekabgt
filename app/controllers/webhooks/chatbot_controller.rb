@@ -13,7 +13,7 @@ module Webhooks
         return
       end
 
-      CustomerMessageJob.new.perform(tenant.id, request.raw_post)
+      CustomerMessageJob.perform_later(tenant.id, request.raw_post)
 
       render json: {
         ok: true

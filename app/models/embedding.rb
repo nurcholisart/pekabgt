@@ -42,6 +42,10 @@ class Embedding < ApplicationRecord
     content.present?
   end
 
+  def model_ready?
+    faiss_url && pkl_url && faiss_url != "-" && pkl_url != "-"
+  end
+
   def activate
     update(active: true)
   end

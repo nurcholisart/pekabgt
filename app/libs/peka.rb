@@ -3,7 +3,7 @@
 class Peka
   # Peka.new("ergav-4oqumerwmn4r1ud", "")
 
-  DEFAULT_BASE_URL = "https://solitary-shape-3834.fly.dev"
+  DEFAULT_BASE_URL = ENV.fetch("PEKA_BASE_URL", "https://solitary-shape-3834.fly.dev")
 
   # Request
   # [

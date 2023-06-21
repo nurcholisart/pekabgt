@@ -29,6 +29,8 @@ gem "store_attribute", "~> 1.1"
 gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 gem "ulid", "~> 1.4"
+gem "redcarpet", "~> 3.6"
+gem "ruby-openai", "~> 4.1"
 
 group :development, :test do
   gem "debug", platforms: %i[mri mingw x64_mingw]
@@ -48,5 +50,3 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
-
-gem "redcarpet", "~> 3.6"

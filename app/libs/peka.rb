@@ -3,6 +3,9 @@
 class Peka
   # Peka.new("ergav-4oqumerwmn4r1ud", "")
 
+  class RequestError < StandardError
+  end
+
   DEFAULT_BASE_URL = ENV.fetch("PEKA_BASE_URL", "https://solitary-shape-3834.fly.dev")
 
   # Request
@@ -82,6 +85,7 @@ class Peka
   #   ]
   # }
   def query_message(question, faiss_url, pkl_url, chatbot_name, chatbot_description, chat_history = [])
+    # @type [HTTP::Response]
     resp = HTTP.post("#{@url}/chats", json: {
                        question: question,
                        api_key: @api_key,
@@ -91,6 +95,8 @@ class Peka
                        chatbot_description: chatbot_description,
                        chat_history: chat_history
                      })
+
+    return unless resp.status.success?
 
     JSON.parse(resp.to_s, object_class: HashWithIndifferentAccess)
   end

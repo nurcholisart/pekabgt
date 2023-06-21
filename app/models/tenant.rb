@@ -29,6 +29,11 @@ class Tenant < ApplicationRecord
                   :string,
                   default: DEFAULT_CHATBOT_DESCRIPTION
 
+  # store_attribute :preferences,
+  #                 :system_prompt,
+  #                 :string,
+  #                 default: ""
+
   validates :name, :admin_email, :code, :secret_key, :admin_token, :admin_sdk_token, presence: true
   validates :code, uniqueness: true
 

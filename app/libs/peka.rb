@@ -56,7 +56,11 @@ class Peka
                        articles: articles
                      })
 
-    JSON.parse(resp.to_s, object_class: HashWithIndifferentAccess)
+    if resp.status.success?
+      [true, JSON.parse(resp.to_s, object_class: HashWithIndifferentAccess)]
+    else
+      [false, StandardError.new("Oops something went wrong while embedding your articles. Please try again")]
+    end
   end
 
   # Request

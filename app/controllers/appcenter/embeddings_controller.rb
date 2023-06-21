@@ -30,11 +30,14 @@ module Appcenter
       end
 
       peka = Peka.new(@embedding.tenant.code, @embedding.tenant.openai_api_key)
-      result = peka.create_embedding(content_for_embed)
+      success, result = peka.create_embedding(content_for_embed)
 
-      @embedding.update(faiss_url: result[:faiss_url], pkl_url: result[:pkl_url], status: "success")
-
-      redirect_to appcenter_embedding_path(@embedding), notice: "Training success!"
+      if success
+        @embedding.update(faiss_url: result[:faiss_url], pkl_url: result[:pkl_url], status: "success")
+        redirect_to appcenter_embedding_path(@embedding), notice: "Training success!"
+      else
+        redirect_to appcenter_embedding_path(@embedding), alert: result.message
+      end
     end
 
     def update

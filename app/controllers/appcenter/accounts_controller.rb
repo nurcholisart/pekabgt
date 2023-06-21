@@ -14,7 +14,7 @@ module Appcenter
     private
 
     def create_params
-      params.require(:tenant).permit(:openai_api_key, :chatbot_enabled, :agent_assistant_enabled, :chatbot_name, :chatbot_description)
+      params.require(:tenant).permit(:openai_api_key, :chatbot_enabled, :agent_assistant_enabled, :chatbot_name, :system_prompt)
     end
   end
 end

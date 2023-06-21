@@ -5,7 +5,6 @@ module Appcenter
     before_action :authenticate_current_tenant
 
     def index
-      @url = "https://kenowlejbes.000webhostapp.com"
       @embedding = Current.tenant.embeddings.find(params[:embedding_id])
       @articles = JSON.parse(@embedding.content || [].to_json)
     end

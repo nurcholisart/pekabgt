@@ -25,7 +25,7 @@ module Appcenter
         content_for_embed.append({
                                    title: content[:title],
                                    link: content[:link],
-                                   content: content[:content]
+                                   content: "#{content[:title]}\n\n#{content[:content]}"
                                  })
       end
 

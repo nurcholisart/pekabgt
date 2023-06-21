@@ -61,6 +61,12 @@ class CustomerMessageJob < ApplicationJob
       raise result unless success
 
       answer = result[:answer]
+      answer = begin
+        Nokogiri::HTML(answer).text
+      rescue StandardError
+        answer
+      end
+
       answer = answer.gsub("#small_talk", "")
       answer = answer.gsub("#end_chat", "")
       answer = answer.gsub("#assign_agent", "")

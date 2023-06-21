@@ -57,12 +57,25 @@
     </div>
 
     <div class="mb-6">
-      <%= form.label :chatbot_description, "Chatbot Description", class: "block mb-2 text-sm font-medium text-gray-900" %>
+      <%= form.label :chatbot_description, "Chatbot Description (DEPRECATED)", class: "block mb-2 text-sm font-medium text-gray-900" %>
       <%= form.text_area :chatbot_description,
-                          class: "bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
-                          required: true,
+                          class: "bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+                          required: false,
                           rows: 5,
+                          readonly: true,
                           value: Current.tenant.chatbot_description || Tenant::DEFAULT_CHATBOT_DESCRIPTION %>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        This field is deprecated and not used anymore. Please use "System Prompt" field instead.
+      </p>
+    </div>
+
+    <div class="mb-6">
+      <%= form.label :system_prompt, "System Prompt", class: "block mb-2 text-sm font-medium text-gray-900" %>
+      <%= form.text_area :system_prompt,
+                          class: "bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+                          data: { controller: "textarea-autogrow" },
+                          required: true,
+                          value: Current.tenant.system_prompt || Tenant::DEFAULT_SYSTEM_PROMPT.strip %>
       <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
         Even if you dont enable chatbot, this field is still required for agent assistant mode
       </p>

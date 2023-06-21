@@ -55,8 +55,7 @@ class CustomerMessageJob < ApplicationJob
         customer_message.content,
         embedding.faiss_url,
         embedding.pkl_url,
-        tenant.chatbot_name,
-        tenant.chatbot_description
+        tenant.system_prompt || Tenant::DEFAULT_SYSTEM_PROMPT
       )
 
       raise result unless success

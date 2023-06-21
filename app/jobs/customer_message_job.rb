@@ -5,83 +5,80 @@ class CustomerMessageJob < ApplicationJob
   queue_as :default
 
   def perform(tenant_id, request_body)
-    # @type [Tenant]
-    tenant = Tenant.find_by(id: tenant_id)
-    return if tenant.blank?
+    ActiveRecord::Base.transaction do
+      # @type [Tenant]
+      tenant = Tenant.find_by(id: tenant_id)
+      return if tenant.blank?
 
-    qismo = tenant.qismo_client
+      qismo = tenant.qismo_client
 
-    webhook = Qismo::WebhookRequests::OnMessageForBotSent.new(JSON.parse(request_body))
+      webhook = Qismo::WebhookRequests::OnMessageForBotSent.new(JSON.parse(request_body))
 
-    return if webhook.payload.message.type != "text"
+      return if webhook.payload.message.type != "text"
 
-    # create customer message
-    customer_message = tenant.messages.create!(
-      sender_id: webhook.payload.from.email,
-      sender_type: "customer",
-      sender_name: webhook.payload.from.name,
-      qiscus_room_id: webhook.payload.room.id,
-      content: webhook.payload.message.text
-    )
-
-    embedding = active_embedding(tenant)
-    if embedding.blank?
-      tenant.messages.create(
-        sender_id: "chatbot",
-        sender_type: "chatbot",
-        sender_name: "Chatbot",
+      # create customer message
+      customer_message = tenant.messages.create!(
+        sender_id: webhook.payload.from.email,
+        sender_type: "customer",
+        sender_name: webhook.payload.from.name,
         qiscus_room_id: webhook.payload.room.id,
-        content: "We have no embedding yet. Please create one!"
+        content: webhook.payload.message.text
       )
 
-      return
-    end
+      embedding = active_embedding(tenant)
+      if embedding.blank?
+        tenant.messages.create(
+          sender_id: "chatbot",
+          sender_type: "chatbot",
+          sender_name: "Chatbot",
+          qiscus_room_id: webhook.payload.room.id,
+          content: "We have no embedding yet. Please create one!"
+        )
 
-    # create chatbot message
-    if tenant.agent_assistant_enabled
-      chatbot_message = tenant.messages.create(
-        sender_id: "chatbot",
-        sender_type: "chatbot",
-        sender_name: "Chatbot",
-        qiscus_room_id: webhook.payload.room.id,
-        content: "AI is generating content...",
-        status: "draft"
+        return
+      end
+
+      # create chatbot message
+      if tenant.agent_assistant_enabled
+        chatbot_message = tenant.messages.create(
+          sender_id: "chatbot",
+          sender_type: "chatbot",
+          sender_name: "Chatbot",
+          qiscus_room_id: webhook.payload.room.id,
+          content: "AI is generating content...",
+          status: "draft"
+        )
+      end
+
+      peka = Peka.new(tenant.code, tenant.openai_api_key)
+      success, result = peka.query_message(
+        customer_message.content,
+        embedding.faiss_url,
+        embedding.pkl_url,
+        tenant.chatbot_name,
+        tenant.chatbot_description
       )
+
+      raise result unless success
+
+      answer = result[:answer]
+      answer = answer.gsub("#small_talk", "")
+      answer = answer.gsub("#end_chat", "")
+      answer = answer.gsub("#assign_agent", "")
+      answer = answer.gsub("#dont_know", "")
+      answer = answer.strip
+
+      chatbot_message.update(content: answer, status: "published") if tenant.agent_assistant_enabled
+
+      if tenant.chatbot_enabled
+        qismo.send_bot_message(
+          room_id: webhook.payload.room.id,
+          message: answer
+        )
+      end
     end
-
-    peka = Peka.new(tenant.code, tenant.openai_api_key)
-    result = peka.query_message(
-      customer_message.content,
-      embedding.faiss_url,
-      embedding.pkl_url,
-      tenant.chatbot_name,
-      tenant.chatbot_description
-    )
-
-    answer = result[:answer]
-    answer = answer.gsub("#small_talk", "")
-    answer = answer.gsub("#end_chat", "")
-    answer = answer.gsub("#assign_agent", "")
-    answer = answer.gsub("#dont_know", "")
-    answer = answer.strip
-
-    chatbot_message.update(content: answer, status: "published") if tenant.agent_assistant_enabled
-
-    if tenant.chatbot_enabled
-      qismo.send_bot_message(
-        room_id: webhook.payload.room.id,
-        message: answer
-      )
-    end
-
-    # qismo.allocate_and_assign_agent(room_id: webhook.payload.room.id) if "#assign_agent".in?(result[:answer])
-    # qismo.resolve_room(room_id: webhook.payload.room.id) if tenant.chatbot_enabled && "#end_chat".in?(result[:answer])
 
     true
-  rescue StandardError => e
-    Rails.logger.error("ERROR")
-    Rails.logger.error(e.inspect)
-    false
   end
 
   private

@@ -100,8 +100,10 @@ class Peka
                        chat_history: chat_history
                      })
 
-    return unless resp.status.success?
-
-    JSON.parse(resp.to_s, object_class: HashWithIndifferentAccess)
+    if resp.status.success?
+      [true, JSON.parse(resp.to_s, object_class: HashWithIndifferentAccess)]
+    else
+      [false, StandardError.new(resp.to_s)]
+    end
   end
 end

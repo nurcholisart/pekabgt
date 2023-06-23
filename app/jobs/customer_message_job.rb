@@ -61,14 +61,16 @@ class CustomerMessageJob < ApplicationJob
 
       raise result unless success
 
-      puts result
-
       answer = result[:answer]
       answer = begin
         Nokogiri::HTML(answer).text
       rescue StandardError
         answer
       end
+
+      system_words = ["#small_talk", "#end_chat", "#assign_agent", "#dont_know"]
+      disable_appending_source_documents = false
+      disable_appending_source_documents = system_words.any? { |word| word.in?(answer) }
 
       answer = answer.gsub("#small_talk", "")
       answer = answer.gsub("#end_chat", "")
@@ -77,7 +79,7 @@ class CustomerMessageJob < ApplicationJob
       answer = answer.strip
 
       begin
-        if tenant.append_source_documents? && result[:source_documents].present?
+        if tenant.append_source_documents? && !disable_appending_source_documents && result[:source_documents].present?
           source_documents = result[:source_documents]
           source_document_links = source_documents.map { |sd| sd[:metadata][:link] }
           source_document_links = source_document_links.uniq

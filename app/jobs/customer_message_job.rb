@@ -76,15 +76,21 @@ class CustomerMessageJob < ApplicationJob
       answer = answer.gsub("#dont_know", "")
       answer = answer.strip
 
-      if tenant.append_source_documents? && result[:source_documents].present?
-        source_documents = result[:source_documents]
-        source_document_message = ""
+      begin
+        if tenant.append_source_documents? && result[:source_documents].present?
+          source_documents = result[:source_documents]
+          source_document_links = source_documents.map { |sd| sd[:metadata][:link] }
+          source_document_links = source_document_links.uniq
+          source_document_message = ""
 
-        source_documents.each do |document|
-          source_document_message += "- #{document[:metadata][:link]}\n"
+          source_document_links.each do |document_link|
+            source_document_message += "- #{document_link}\n"
+          end
+
+          answer += "\n\nArtikel Terkait:\n#{source_document_message}"
         end
-
-        answer += "\n\nArtikel Terkait:\n#{source_document_message}"
+      rescue StandardError
+        nil
       end
 
       chatbot_message.update(content: answer, status: "published") if tenant.agent_assistant_enabled

@@ -31,22 +31,45 @@ class Tenant < ApplicationRecord
 
   DEFAULT_SYSTEM_PROMPT = DEFAULT_SYSTEM_PROMPTS_ARRAY.join("\n").strip
 
+  # @!attribute openai_api_key
+  #   @return [String]
   store_attribute :preferences, :openai_api_key, :string, default: "undefined_api_key"
-  store_attribute :preferences, :chatbot_enabled, :boolean, default: false
-  store_attribute :preferences, :agent_assistant_enabled, :boolean, default: false
-  store_attribute :preferences, :chatbot_name, :string, default: DEFAULT_CHATBOT_NAME
-  store_attribute :preferences,
-                  :chatbot_description,
-                  :string,
-                  default: DEFAULT_CHATBOT_DESCRIPTION
 
+  # @!attribute chatbot_enabled
+  #   @return [TrueClass, FalseClass]
+  store_attribute :preferences, :chatbot_enabled, :boolean, default: false
+
+  # @!attribute agent_assistant_enabled
+  #   @return [TrueClass, FalseClass]
+  store_attribute :preferences, :agent_assistant_enabled, :boolean, default: false
+
+  # @!attribute chatbot_name
+  #   @return [String]
+  store_attribute :preferences, :chatbot_name, :string, default: DEFAULT_CHATBOT_NAME
+
+  # @!attribute chatbot_description
+  #   @return [String]
+  store_attribute :preferences, :chatbot_description, :string, default: DEFAULT_CHATBOT_DESCRIPTION
+
+  # @!attribute system_prompt
+  #   @return [String]
   store_attribute :preferences,
                   :system_prompt,
                   :string,
                   default: DEFAULT_SYSTEM_PROMPT
 
+  # @!attribute append_source_documents
+  #   @return [TrueClass, FalseClass]
+  store_attribute :preferences,
+                  :append_source_documents,
+                  :boolean,
+                  default: false
+
   validates :name, :admin_email, :code, :secret_key, :admin_token, :admin_sdk_token, presence: true
   validates :code, uniqueness: true
+
+  validates :chatbot_name, presence: true
+  validates :system_prompt, presence: true
 
   has_many :embeddings, dependent: :destroy
   has_many :messages, dependent: :destroy

@@ -74,6 +74,10 @@ class CustomerMessageJob < ApplicationJob
       answer = answer.gsub("#dont_know", "")
       answer = answer.strip
 
+      if tenant.append_source_documents?
+        answer += "\n\nArtikel Terkait: #{result[:source_documents]}"
+      end
+
       chatbot_message.update(content: answer, status: "published") if tenant.agent_assistant_enabled
 
       if tenant.chatbot_enabled

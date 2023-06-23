@@ -51,11 +51,12 @@ class CustomerMessageJob < ApplicationJob
       end
 
       peka = Peka.new(tenant.code, tenant.openai_api_key)
-      success, result = peka.query_message(
-        customer_message.content,
-        embedding.faiss_url,
-        embedding.pkl_url,
-        tenant.system_prompt || Tenant::DEFAULT_SYSTEM_PROMPT
+      success, result = peka.query_message_v2(
+        session_id: webhook.payload.room.id.to_s,
+        question: customer_message.content,
+        system_prompt: tenant.system_prompt || Tenant::DEFAULT_SYSTEM_PROMPT,
+        faiss_url: embedding.faiss_url,
+        pkl_url: embedding.pkl_url
       )
 
       raise result unless success

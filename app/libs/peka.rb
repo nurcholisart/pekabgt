@@ -23,6 +23,7 @@ class Peka
   # }
   def initialize(app_code, api_key)
     @url = "#{DEFAULT_BASE_URL}/api/v1/#{app_code}"
+    @url_v2 = "#{DEFAULT_BASE_URL}/api/v1/#{app_code}"
     @app_code = app_code
     @api_key = api_key
   end
@@ -60,6 +61,24 @@ class Peka
       [true, JSON.parse(resp.to_s, object_class: HashWithIndifferentAccess)]
     else
       [false, StandardError.new("Oops something went wrong while embedding your articles. Please try again")]
+    end
+  end
+
+  def query_message_v2(session_id:, question:, system_prompt:, faiss_url:, pkl_url:)
+    # @type [HTTP::Response]
+    resp = HTTP.post("#{@url_v2}/chats", json: {
+                       api_key: @api_key,
+                       session_id: session_id,
+                       question: question,
+                       system_prompt: system_prompt,
+                       faiss_url: faiss_url,
+                       pkl_url: pkl_url
+                     })
+
+    if resp.status.success?
+      [true, JSON.parse(resp.to_s, object_class: HashWithIndifferentAccess)]
+    else
+      [false, StandardError.new(resp.to_s)]
     end
   end
 

@@ -74,7 +74,7 @@ class CustomerMessageJob < ApplicationJob
       answer = answer.gsub("#dont_know", "")
       answer = answer.strip
 
-      if tenant.append_source_documents?
+      if tenant.append_source_documents? && result[:source_documents].present?
         answer += "\n\nArtikel Terkait: #{result[:source_documents]}"
       end
 

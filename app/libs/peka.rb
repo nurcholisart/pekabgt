@@ -23,7 +23,7 @@ class Peka
   # }
   def initialize(app_code, api_key)
     @url = "#{DEFAULT_BASE_URL}/api/v1/#{app_code}"
-    @url_v2 = "#{DEFAULT_BASE_URL}/api/v1/#{app_code}"
+    @url_v2 = "#{DEFAULT_BASE_URL}/api/v2/#{app_code}"
     @app_code = app_code
     @api_key = api_key
   end

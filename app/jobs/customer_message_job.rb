@@ -77,7 +77,14 @@ class CustomerMessageJob < ApplicationJob
       answer = answer.strip
 
       if tenant.append_source_documents? && result[:source_documents].present?
-        answer += "\n\nArtikel Terkait: #{result[:source_documents]}"
+        source_documents = result[:source_documents]
+        source_document_message = ""
+
+        source_documents.each do |document|
+          source_document_message += "- #{document[:metadata][:link]}\n"
+        end
+
+        answer += "\n\nArtikel Terkait: #{source_document_message}"
       end
 
       chatbot_message.update(content: answer, status: "published") if tenant.agent_assistant_enabled

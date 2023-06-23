@@ -84,7 +84,7 @@ class CustomerMessageJob < ApplicationJob
           source_document_message += "- #{document[:metadata][:link]}\n"
         end
 
-        answer += "\n\nArtikel Terkait: #{source_document_message}"
+        answer += "\n\nArtikel Terkait:\n#{source_document_message}"
       end
 
       chatbot_message.update(content: answer, status: "published") if tenant.agent_assistant_enabled

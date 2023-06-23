@@ -61,6 +61,8 @@ class CustomerMessageJob < ApplicationJob
 
       raise result unless success
 
+      puts result
+
       answer = result[:answer]
       answer = begin
         Nokogiri::HTML(answer).text
